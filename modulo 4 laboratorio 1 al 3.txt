@@ -1,0 +1,199 @@
+
+video 1 
+date
+sudo su
+dnf install postfix s-nail
+
+systemctl enable postfx
+systemctl start postfix
+systemctl status postfix
+
+firewall-cmd --add-service=smtp --permanent
+firewall-cmd --reload
+firewall-cmd --add-port=587/tcp --permanent
+firewall-cmd --reload
+
+nano /etc/postfix/main.cf
+
+relayhost = [smtp.gmail.com]:587
+smtp_sasl_auth_enable = yes
+smtp_sasl_security_options = noanonymous
+smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
+
+encrypt
+
+nano /etc/postfix/sasl_passwd
+
+[smtp.gmail.com]:587 [correo ]:[password]
+
+chmod 600 /etc/postfix/sasl_passwd
+chonw root:root /etc/postfix/sasl_passwd
+postmap /etc/postfix/sasl_passwd
+
+systemctl restart postfix
+
+tail -f /var/log/maillog
+
+echo "estudiante Mario Antonio Abreu Montero"| mail -s "confirmacion de practica" marioantoniouerba@gmail.com
+
+tail -f /var/log/maillog
+
+date
+
+
+
+
+video2
+
+date
+sudo su 
+dnf install cups
+dnf install cups-pdf
+dnf install epel-releace
+systemctl enable cups
+systemctl start cups
+systemctl status cups
+clear
+vi /etc/cups/cupsd.conf
+:wq
+
+systemctl restart cups 
+firewall-cmd --add-port=631/tcp --permanent
+firewall-cmd --list-all
+firewall --reload 
+clear
+
+
+192.168.100.139:631
+
+
+cd Desktop 
+ls -l
+clear
+date
+
+
+video 3  
+
+date
+
+dnf install httpd
+systemctl enable httpd
+systemctl start httpd
+systemctl status httpd
+clear
+firewall-cmd --list-all
+clear
+firewall-cmd --add-service=httpd --permanent
+firewall-cmd --reload
+firefox
+ifconfig
+
+192.168.100.141
+
+clear
+mkdir -p /var/www/html/website1
+vi /etc/httpd/conf.d/website1.conf
+
+<VirtualHost *:80>
+
+ServerAdmin webmaster@2024-2369
+
+DocumentRoot /var/www/html/website1
+
+ServerName website1.local
+
+ErrorLog /var/log/httpd/website1_error.log
+
+CustomLog /var/log/httpd/website1_access.log combined
+
+</VirtualHost>
+
+:wq
+
+
+vi /var/www//html/website1/index.html
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>hola mundo</title>
+</head>
+<body>
+      <h1>hola mundo</h1>
+ </body>
+</html>
+ 
+:wq
+firefox
+systemctl restart httpd
+firefox
+
+192.168.100.141
+
+mkdir -p /var/www/html/website2
+
+vi /var/www//html/website2/index.html
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>hola mundo</title>
+</head>
+<body>
+      <h1>Nombre: [Mario Antonio]</h1>
+      <h1>Matricula:[2024-2369]</h1>
+      <h1>Materia :[Sistema Operativo]</h1>
+      </body>
+</html>
+
+
+
+vi /etc/httpd/conf.d/website2.conf
+
+
+
+<VirtualHost *:8080>
+
+ServerAdmin webmaster@2024-2369
+
+DocumentRoot /var/www/html/website2
+
+ServerName website2.local
+
+ErrorLog /var/log/httpd/website2_error.log
+
+CustomLog /var/log/httpd/website2_access.log combined
+
+</VirtualHost>
+
+firewall-cmd --add-port=8080/tcp --permanent
+firewall-cmd --reload
+firewall-cmd --list-all
+
+vi /etc/httpd/conf/httpd.conf
+
+
+Listen 8080
+
+:wq
+
+firefox
+
+
+192.168.100.141:8080
+
+date
+
+
+
+
+
+
+
+
